@@ -1,0 +1,50 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://spring.io/guides/gs-producing-web-service"
+           targetNamespace="http://spring.io/guides/gs-producing-web-service" elementFormDefault="qualified">
+    <!-- request and response-->
+    <xs:element name="findLeadsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="minRevenue" type="xs:double"/>
+                <xs:element name="maxRevenue" type="xs:double"/>
+                <xs:element name="state" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="findLeadsByDateRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="startDate" type="xs:date"/>
+                <xs:element name="endDate" type="xs:date"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="findLeadsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="leads" type="tns:leadTo" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <!-- objects-->
+    <xs:complexType name="leadTo">
+        <xs:sequence>
+            <xs:element name="firstName" type="xs:string"/>
+            <xs:element name="lastName" type="xs:string"/>
+            <xs:element name="annualRevenue" type="xs:double"/>
+            <xs:element name="phone" type="xs:string"/>
+            <xs:element name="street" type="xs:string"/>
+            <xs:element name="postalCode" type="xs:string"/>
+            <xs:element name="city" type="xs:string"/>
+            <xs:element name="country" type="xs:string"/>
+            <xs:element name="creationDate" type="xs:date"/>
+            <xs:element name="company" type="xs:string"/>
+            <xs:element name="state" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

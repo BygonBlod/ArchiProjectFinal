@@ -1,9 +1,12 @@
+package Proxy;
+
+import Proxy.Proxy;
 import model.LeadTo;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.ArrayList;
 
-public class ClientGeneral implements Proxy{
+public class ClientGeneral implements Proxy {
 
     ClientSalesForce salesClient;
     ClientIntern internClient;

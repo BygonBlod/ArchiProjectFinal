@@ -1,3 +1,6 @@
+package Proxy;
+
+import Proxy.Proxy;
 import model.LeadTo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,7 +23,7 @@ import java.util.TimeZone;
 
 import static java.lang.System.out;
 
-public class ClientIntern implements Proxy  {
+public class ClientIntern implements Proxy {
 
     private String callSoapService(String soapRequest) {
         try {

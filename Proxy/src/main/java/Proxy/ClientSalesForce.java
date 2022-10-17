@@ -40,6 +40,7 @@ import static java.lang.System.out;
 public class ClientSalesForce implements Proxy {
     private String key;
 
+
     public ClientSalesForce(){
         connect();
     }
@@ -82,26 +83,41 @@ public class ClientSalesForce implements Proxy {
             jsonException.printStackTrace();
         }
 
-        requete();
+        //requete();
+        findLeads(10,999999,"ND");
+        XMLGregorianCalendar newDate= DatatypeFactory.newDefaultInstance().newXMLGregorianCalendarDate(2020,02,11, TimeZone.LONG);
+        XMLGregorianCalendar newDate2= DatatypeFactory.newDefaultInstance().newXMLGregorianCalendarDate(2020,06,11, TimeZone.LONG);
+        findLeadsByDate(newDate,newDate2);
     }
 
     @Override
     public ArrayList<LeadTo> findLeads(double min, double max, String state) {
         ArrayList<LeadTo> res=new ArrayList<>();
+        String uri="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
+        //requete sur toutes les informations demander des leads
+        uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead+Where+AnnualRevenue+%3E+"+(min-1)+"+And+AnnualRevenue+%3C+"+(max+1)+"+And+State+=+'"+state+"'";
+        requete(uri);
         return res;
     }
 
     @Override
     public ArrayList<LeadTo> findLeadsByDate(XMLGregorianCalendar start, XMLGregorianCalendar end) {
         ArrayList<LeadTo> res=new ArrayList<>();
+        String startS=start.toString().substring(0,start.toString().length()-1);
+        String endS=end.toString().substring(0,end.toString().length()-1);
+        String uri="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
+        //requete sur toutes les informations demander des leads
+        uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead+Where+CreatedDate+%3E+"+startS+"+And+CreatedDate+%3C+"+endS;
+        requete(uri);
         return res;
     }
 
-    public void requete(){
-        String uri="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
+    public void requete(String uri){
+        String uri2="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
         //requete sur toutes les informations demander des leads
-        uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead";
-        HttpGet request = new HttpGet(uri);
+        uri2+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead";
+        HttpGet request = new HttpGet(uri2);
+        out.println(uri);
 
         request.addHeader("Content-Type", "application/x-www-form-urlencoded");
         request.addHeader("Authorization","Bearer "+key);

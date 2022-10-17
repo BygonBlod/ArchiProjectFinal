@@ -27,11 +27,10 @@ public class ClientIntern implements Proxy {
 
     private String callSoapService(String soapRequest) {
         try {
-            String url = "http://localhost:8080/ws"; // replace your URL here
+            String url = "http://localhost:8080/ws";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-            // change these values as per soapui request on top left of request, click on RAW, you will find all the headers
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type","text/xml; charset=utf-8");
             con.setDoOutput(true);
@@ -50,11 +49,8 @@ public class ClientIntern implements Proxy {
             in.close();
             con.disconnect();
 
-            // You can play with response which is available as string now:
             String finalvalue= response.toString();
             out.println(finalvalue);
-            // or you can parse/substring the required tag from response as below based your response code
-            //finalvalue= finalvalue.substring(finalvalue.indexOf("<response>")+10,finalvalue.indexOf("</response>")); */
 
             return finalvalue;
         }

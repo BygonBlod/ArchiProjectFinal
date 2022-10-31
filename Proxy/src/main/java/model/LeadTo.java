@@ -1,8 +1,9 @@
 package model;
 
+import javax.persistence.Entity;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Calendar;
-
+@Entity
 public class LeadTo {
     String firstName;
     String lastName;
@@ -12,6 +13,7 @@ public class LeadTo {
     String postalCode;
     String city;
     String country;
+    GeographicPointTo geographicPointTo;
     XMLGregorianCalendar creationDate;
     String company;
     String state;

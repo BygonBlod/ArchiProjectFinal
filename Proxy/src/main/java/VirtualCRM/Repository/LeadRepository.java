@@ -2,12 +2,11 @@ package VirtualCRM.Repository;
 
 import Proxy.VirtualCRM;
 import model.LeadTo;
-import model.RequestDate;
-import model.RequestRevenue;
 import org.springframework.stereotype.Repository;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -21,10 +20,11 @@ public class LeadRepository {
         return res;
     }
 
-    public List<LeadTo> findLeadsByDate(XMLGregorianCalendar start,XMLGregorianCalendar end){
+    public List<LeadTo> findLeadsByDate(Date start, Date end){
         List<LeadTo> res=new ArrayList<>();
         res=VirtualCRM.getInstance().findLeadsByDate(start,end);
         out.println("test leads by date");
+        out.println(res.toString());
         return res;
     }
 }

@@ -32,7 +32,9 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.TimeZone;
+import Utils.Utils;
 
 import static java.lang.System.out;
 
@@ -104,18 +106,18 @@ public class ClientSalesForce implements Proxy {
     }
 
     @Override
-    public ArrayList<LeadTo> findLeadsByDate(XMLGregorianCalendar start, XMLGregorianCalendar end) {
+    public ArrayList<LeadTo> findLeadsByDate(Date start, Date end) {
         ArrayList<LeadTo> res=new ArrayList<>();
 
-        out.println(start);
-        out.println(end.toString());
-        String[] split=start.toString().split("\\+");
+        /*String[] split=start.toString().split("\\+");
         String startS=start.toString().split("\\+")[0];
         String endS=end.toString().split("\\+")[0];
         for(String s:split){
             out.println(s);
         }
-        out.println(start.toString()+" : "+startS);
+        out.println(start.toString()+" : "+startS);*/
+        String startS=Utils.getStringDate(start);
+        String endS=Utils.getStringDate(end);
         String uri="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
         //requete sur toutes les informations demander des leads
         uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead+Where+CreatedDate+%3E+"+startS+"+And+CreatedDate+%3C+"+endS;
@@ -141,12 +143,13 @@ public class ClientSalesForce implements Proxy {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
-                //out.println(result);
+                out.println(result);
                 res=getListLead(result);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        out.println(res.size());
         return res;
     }
     private static ArrayList<LeadTo> getListLead(String response) {

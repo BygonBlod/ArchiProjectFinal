@@ -4,6 +4,7 @@ import model.LeadTo;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class VirtualCRM implements Proxy {
 
@@ -34,7 +35,7 @@ public class VirtualCRM implements Proxy {
     }
 
     @Override
-    public ArrayList<LeadTo> findLeadsByDate(XMLGregorianCalendar start, XMLGregorianCalendar end) {
+    public ArrayList<LeadTo> findLeadsByDate(Date start, Date end) {
         ArrayList<LeadTo>res=new ArrayList<>();
         for(Proxy client:proxyList){
             res.addAll(client.findLeadsByDate(start,end));

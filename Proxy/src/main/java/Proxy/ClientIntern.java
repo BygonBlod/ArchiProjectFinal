@@ -19,7 +19,9 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.TimeZone;
+import Utils.Utils;
 
 import static java.lang.System.out;
 
@@ -78,19 +80,21 @@ public class ClientIntern implements Proxy {
     }
 
     @Override
-    public ArrayList<LeadTo> findLeadsByDate(XMLGregorianCalendar start, XMLGregorianCalendar end) {
+    public ArrayList<LeadTo> findLeadsByDate(Date start, Date end) {
+
         String xml="<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
                 "                  xmlns:gs=\"http://spring.io/guides/gs-producing-web-service\">\n" +
                 "    <soapenv:Header/>\n" +
                 "    <soapenv:Body>\n" +
                 "        <gs:findLeadsByDateRequest>\n" +
-                "            <gs:startDate>"+start.getYear()+"-"+start.getMonth()+"-"+start.getDay()+"</gs:startDate>\n" +
-                "            <gs:endDate>"+end.getYear()+"-"+end.getMonth()+"-"+end.getDay()+"</gs:endDate>\n" +
+                "            <gs:startDate>"+Utils.getStringDate(start)+"</gs:startDate>\n" +
+                "            <gs:endDate>"+Utils.getStringDate(end)+"</gs:endDate>\n" +
                 "        </gs:findLeadsByDateRequest>\n" +
                 "    </soapenv:Body>\n" +
                 "</soapenv:Envelope>";
         String response=callSoapService(xml);
         ArrayList<LeadTo> res=getListLead(response);
+
         return res;
     }
 

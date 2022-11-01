@@ -2,7 +2,6 @@ package VirtualCRM.controller;
 
 import VirtualCRM.service.LeadService;
 import model.LeadTo;
-import model.RequestDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
@@ -35,33 +34,12 @@ public class LeadController {
 
     @GetMapping("/findLeadsByDate")
     public ResponseEntity<List<LeadTo>> findLeadsByDate(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date start,
-                                                        @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date end){
+                                                        @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date end){
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Content-Type","application/xml");
+        responseHeaders.set("Content-Type","application/json");
         responseHeaders.set("Access-Control-Allow-Origin","*");
-        XMLGregorianCalendar xmlstart = null;
-        XMLGregorianCalendar xmlend = null;
 
-        out.println(start);
-        out.println(end);
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTime(start);
-        GregorianCalendar gc2 = new GregorianCalendar();
-        gc2.setTime(end);
-
-        try {
-            xmlstart = DatatypeFactory.newInstance()
-                    .newXMLGregorianCalendar();
-            xmlend = DatatypeFactory.newInstance()
-                    .newXMLGregorianCalendar();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        out.println(xmlstart);
-        out.println(xmlend);
-
-        return ResponseEntity.ok().headers(responseHeaders).body(leadService.findLeadsByDate(xmlstart,xmlend));
+        return ResponseEntity.ok().headers(responseHeaders).body(leadService.findLeadsByDate(start,end));
     }
 
 

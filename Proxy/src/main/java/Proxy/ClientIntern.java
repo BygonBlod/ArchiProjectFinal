@@ -50,7 +50,7 @@ public class ClientIntern implements Proxy {
             con.disconnect();
 
             String finalvalue= response.toString();
-            out.println(finalvalue);
+            //out.println(finalvalue);
 
             return finalvalue;
         }
@@ -60,7 +60,7 @@ public class ClientIntern implements Proxy {
     }
 
     @Override
-    public ArrayList<LeadTo> findLeads(double min, double max, String state) {
+    public ArrayList<LeadTo> findLeads(Double min, Double max, String state) {
         String xml="<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
                 "                  xmlns:gs=\"http://spring.io/guides/gs-producing-web-service\">\n" +
                 "    <soapenv:Header/>\n" +
@@ -89,7 +89,6 @@ public class ClientIntern implements Proxy {
                 "        </gs:findLeadsByDateRequest>\n" +
                 "    </soapenv:Body>\n" +
                 "</soapenv:Envelope>";
-        out.println(xml);
         String response=callSoapService(xml);
         ArrayList<LeadTo> res=getListLead(response);
         return res;

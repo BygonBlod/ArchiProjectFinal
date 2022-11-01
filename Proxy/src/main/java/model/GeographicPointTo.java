@@ -1,5 +1,6 @@
 package model;
 
+import lombok.Data;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -9,9 +10,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import javax.persistence.Entity;
 import java.io.IOException;
-@Entity
+@Data
 public class GeographicPointTo {
     double latitude;
     double longitude;

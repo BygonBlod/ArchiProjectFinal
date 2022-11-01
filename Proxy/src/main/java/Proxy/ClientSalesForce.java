@@ -1,6 +1,5 @@
 package Proxy;
 
-import Proxy.Proxy;
 import model.LeadTo;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -84,40 +83,52 @@ public class ClientSalesForce implements Proxy {
         }
 
         //requete();
-        findLeads(10,999999,"ND");
+        //findLeads(10,999999,"ND");
         XMLGregorianCalendar newDate= DatatypeFactory.newDefaultInstance().newXMLGregorianCalendarDate(2020,02,11, TimeZone.LONG);
         XMLGregorianCalendar newDate2= DatatypeFactory.newDefaultInstance().newXMLGregorianCalendarDate(2020,06,11, TimeZone.LONG);
-        findLeadsByDate(newDate,newDate2);
+        //findLeadsByDate(newDate,newDate2);
     }
 
     @Override
-    public ArrayList<LeadTo> findLeads(double min, double max, String state) {
+    public ArrayList<LeadTo> findLeads(Double min, Double max, String state) {
         ArrayList<LeadTo> res=new ArrayList<>();
         String uri="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
         //requete sur toutes les informations demander des leads
-        uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead+Where+AnnualRevenue+%3E+"+(min-1)+"+And+AnnualRevenue+%3C+"+(max+1)+"+And+State+=+'"+state+"'";
-        requete(uri);
+        max++;
+        int maxi=max.intValue();
+        min--;
+        int mini=min.intValue();
+        uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead+Where+AnnualRevenue+%3E+"+mini+"+And+AnnualRevenue+%3C+"+maxi+"+And+State+=+'"+state+"'";
+        res=requete(uri);
         return res;
     }
 
     @Override
     public ArrayList<LeadTo> findLeadsByDate(XMLGregorianCalendar start, XMLGregorianCalendar end) {
         ArrayList<LeadTo> res=new ArrayList<>();
-        String startS=start.toString().substring(0,start.toString().length()-1);
-        String endS=end.toString().substring(0,end.toString().length()-1);
+
+        out.println(start);
+        out.println(end.toString());
+        String[] split=start.toString().split("\\+");
+        String startS=start.toString().split("\\+")[0];
+        String endS=end.toString().split("\\+")[0];
+        for(String s:split){
+            out.println(s);
+        }
+        out.println(start.toString()+" : "+startS);
         String uri="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
         //requete sur toutes les informations demander des leads
         uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead+Where+CreatedDate+%3E+"+startS+"+And+CreatedDate+%3C+"+endS;
-        requete(uri);
+        res=requete(uri);
         return res;
     }
 
-    public void requete(String uri){
+    public ArrayList<LeadTo> requete(String uri){
+        ArrayList<LeadTo> res=new ArrayList<>();
         String uri2="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
         //requete sur toutes les informations demander des leads
         uri2+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead";
-        HttpGet request = new HttpGet(uri2);
-        out.println(uri);
+        HttpGet request = new HttpGet(uri);
 
         request.addHeader("Content-Type", "application/x-www-form-urlencoded");
         request.addHeader("Authorization","Bearer "+key);
@@ -130,11 +141,13 @@ public class ClientSalesForce implements Proxy {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
-                out.println(result);
+                //out.println(result);
+                res=getListLead(result);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return res;
     }
     private static ArrayList<LeadTo> getListLead(String response) {
         ArrayList<LeadTo> res=new ArrayList<>();

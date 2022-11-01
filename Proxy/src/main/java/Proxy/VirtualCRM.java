@@ -5,19 +5,27 @@ import model.LeadTo;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.ArrayList;
 
-public class FabricClient implements Proxy {
+public class VirtualCRM implements Proxy {
 
     ArrayList<Proxy> proxyList=new ArrayList<>();
+    private static VirtualCRM singleton;
 
-    public FabricClient(){
+    private VirtualCRM(){
         ClientSalesForce salesClient=new ClientSalesForce();
         ClientIntern internClient=new ClientIntern();
 
         proxyList.add(salesClient);
         proxyList.add(internClient);
     }
+
+    public static VirtualCRM getInstance(){
+        if(singleton==null){
+            singleton=new VirtualCRM();
+        }
+        return singleton;
+    }
     @Override
-    public ArrayList<LeadTo> findLeads(double min, double max, String state) {
+    public ArrayList<LeadTo> findLeads(Double min, Double max, String state) {
         ArrayList<LeadTo>res=new ArrayList<>();
         for(Proxy client:proxyList){
             res.addAll(client.findLeads(min,max,state));

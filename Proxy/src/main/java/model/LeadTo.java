@@ -1,9 +1,11 @@
 package model;
 
-import javax.persistence.Entity;
+
+import lombok.Data;
+
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Calendar;
-@Entity
+@Data
 public class LeadTo {
     String firstName;
     String lastName;

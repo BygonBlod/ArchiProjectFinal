@@ -120,18 +120,14 @@ public class ClientSalesForce implements Proxy {
         String endS=Utils.getStringDate(end);
         String uri="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
         //requete sur toutes les informations demander des leads
-        uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead+Where+CreatedDate+%3E+"+startS+"+And+CreatedDate+%3C+"+endS;
-        out.println(uri);
+        uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead+Where+DAY_ONLY(CreatedDate)+%3E+"+startS+"+And+DAY_ONLY(CreatedDate)+%3C+"+endS;
         res=requete(uri);
         return res;
     }
 
     public ArrayList<LeadTo> requete(String uri){
         ArrayList<LeadTo> res=new ArrayList<>();
-        String uri2="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
-        //requete sur toutes les informations demander des leads
-        uri2+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead";
-        HttpGet request = new HttpGet(uri2);
+        HttpGet request = new HttpGet(uri);
 
         request.addHeader("Content-Type", "application/x-www-form-urlencoded");
         request.addHeader("Authorization","Bearer "+key);
@@ -144,7 +140,6 @@ public class ClientSalesForce implements Proxy {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
-                out.println(result);
                 res=getListLead(result);
             }
         } catch (IOException e) {

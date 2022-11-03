@@ -26,8 +26,7 @@ public class LeadController {
                                                   @RequestParam(value = "max",defaultValue = "0")double max,
                                                   @RequestParam(value = "state",defaultValue = "")String state){
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Content-Type","application/json");
-        responseHeaders.set("Access-Control-Allow-Origin","*");
+        responseHeaders.set("Content-Type","application/xml");
 
         return ResponseEntity.ok().headers(responseHeaders).body(leadService.findLeads(min,max,state));
     }
@@ -36,8 +35,7 @@ public class LeadController {
     public ResponseEntity<List<LeadTo>> findLeadsByDate(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date start,
                                                         @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date end){
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Content-Type","application/json");
-        responseHeaders.set("Access-Control-Allow-Origin","*");
+        responseHeaders.set("Content-Type","application/xml");
 
         return ResponseEntity.ok().headers(responseHeaders).body(leadService.findLeadsByDate(start,end));
     }

@@ -121,6 +121,7 @@ public class ClientSalesForce implements Proxy {
         String uri="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
         //requete sur toutes les informations demander des leads
         uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead+Where+CreatedDate+%3E+"+startS+"+And+CreatedDate+%3C+"+endS;
+        out.println(uri);
         res=requete(uri);
         return res;
     }
@@ -130,7 +131,7 @@ public class ClientSalesForce implements Proxy {
         String uri2="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";
         //requete sur toutes les informations demander des leads
         uri2+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead";
-        HttpGet request = new HttpGet(uri);
+        HttpGet request = new HttpGet(uri2);
 
         request.addHeader("Content-Type", "application/x-www-form-urlencoded");
         request.addHeader("Authorization","Bearer "+key);

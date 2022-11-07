@@ -109,13 +109,6 @@ public class ClientSalesForce implements Proxy {
     public ArrayList<LeadTo> findLeadsByDate(Date start, Date end) {
         ArrayList<LeadTo> res=new ArrayList<>();
 
-        /*String[] split=start.toString().split("\\+");
-        String startS=start.toString().split("\\+")[0];
-        String endS=end.toString().split("\\+")[0];
-        for(String s:split){
-            out.println(s);
-        }
-        out.println(start.toString()+" : "+startS);*/
         String startS=Utils.getStringDate(start);
         String endS=Utils.getStringDate(end);
         String uri="https://archiproject-dev-ed.my.salesforce.com/services/data/v45.0//query?";

@@ -6,11 +6,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import static java.lang.System.out;
@@ -21,7 +23,7 @@ public class LeadsToRepository {
     private ArrayList<LeadTo> leads=new ArrayList<LeadTo>();
 
     @PostConstruct
-    public  void initData(){
+    public  void initData() throws DatatypeConfigurationException {
 
         LeadTo lead1=new LeadTo();
         lead1.setFirstName("Antonin");
@@ -53,6 +55,25 @@ public class LeadsToRepository {
         lead1.setCompany("la fuite");
         lead1.setState("ND");
         leads.add(lead1);
+
+        //-------
+        LeadTo lead3=new LeadTo();
+        lead3.setFirstName("Johny");
+        lead3.setLastName("Hyria");
+        lead3.setAnnualRevenue(200000.0);
+        lead3.setPhone("0780626515");
+        lead3.setStreet("2 boulevard lavoisier");
+        lead3.setPostalCode("49000");
+        lead3.setCity("Angers");
+        lead3.setCountry("France");
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+        XMLGregorianCalendar now = datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
+        now.setTimezone(TimeZone.SHORT);
+        lead3.setCreationDate(now);
+        lead3.setCompany("la fuite");
+        lead3.setState("ND");
+        leads.add(lead3);
     }
 
     public ArrayList<LeadTo> findLeads(double min, double max, String state){
@@ -74,15 +95,22 @@ public class LeadsToRepository {
         Assert.notNull(end,"max doit être une date");
         Date startDate=toDate(start);
         Date endDate=toDate(end);
+        long nowms = endDate.getTime();
+        long differencems = 1 * 24 * 60 * 60 * 1000;
+        long thenms = nowms + differencems;
+        Date endDate2=new Date(thenms);
         ArrayList<LeadTo> res=new ArrayList<>();
         if( startDate.compareTo(endDate)<=0);{
             for(LeadTo lead:leads){
                  Date date= toDate(lead.getCreationDate());
-                 if(startDate.compareTo(date)<=0 && date.compareTo(endDate)<=0){
+                 out.println(startDate.toString()+" "+date.toString()+" "+endDate2.toString());
+                 out.println(startDate.compareTo(date)+" - "+date.compareTo(endDate2));
+                 if(startDate.compareTo(date)<=0 && date.compareTo(endDate2)<=0){
                     res.add(lead);
                 }
             }
         }
+        out.println("---------");
         return res;
     }
 

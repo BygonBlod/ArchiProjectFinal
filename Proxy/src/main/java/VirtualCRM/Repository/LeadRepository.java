@@ -23,8 +23,6 @@ public class LeadRepository {
     public List<LeadTo> findLeadsByDate(Date start, Date end){
         List<LeadTo> res=new ArrayList<>();
         res=VirtualCRM.getInstance().findLeadsByDate(start,end);
-        out.println("test leads by date");
-        out.println(res.toString());
         return res;
     }
 }

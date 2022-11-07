@@ -1,7 +1,7 @@
-import Proxy.ClientGeneral;
+import Proxy.VirtualCRM;
 
 public class Test {
     public static void main(String[] args){
-        ClientGeneral client=new ClientGeneral();
+        VirtualCRM client=VirtualCRM.getInstance();
     }
 }

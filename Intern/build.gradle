@@ -74,3 +74,17 @@ compileJava.dependsOn genJaxb
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+task customFatJar(type: Jar) {
+	manifest {
+		attributes 'Main-Class': 'InternCRM.ProducingWebServiceApplication'
+	}
+	baseName = 'all-in-one-jar'
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+	with jar
+	bootJar {
+		baseName = "SpringBoot"
+		version =  '0.0.1'
+	}
+}

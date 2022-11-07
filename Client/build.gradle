@@ -8,13 +8,23 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
-
+configurations {
+    // configuration that holds jars to include in the jar
+    extraLibs
+}
 dependencies {
+    extraLibs group: 'net.java.dev.jna', name: 'jna-platform', version: '4.2.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation('org.apache.httpcomponents:httpclient:4.5.10')
+    configurations.implementation.extendsFrom(configurations.extraLibs)
 }
 
 test {
     useJUnitPlatform()
+}
+jar {
+    from {
+        configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

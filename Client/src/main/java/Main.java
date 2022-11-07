@@ -151,6 +151,7 @@ public class Main {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
+                out.println(result);
                 prettyPrint(result);
             }
         } catch (IOException e) {
@@ -172,7 +173,8 @@ public class Main {
             transformer.transform(xmlInput, xmlOutput);
             out.println(xmlOutput.getWriter().toString());
         } catch (Exception e) {
-            throw new RuntimeException(e); // simple exception handling, please review it
+            //throw new RuntimeException(e); // simple exception handling, please review it
+            out.println("la réponse du serveur n'est pas un xml lisible");
         }
     }
 }

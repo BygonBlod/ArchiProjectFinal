@@ -4,7 +4,6 @@ package model;
 import lombok.Data;
 
 import javax.xml.datatype.XMLGregorianCalendar;
-import java.util.Calendar;
 @Data
 public class LeadTo {
     String firstName;
@@ -32,6 +31,8 @@ public class LeadTo {
         creationDate=da;
         company=comp;
         state=sta;
+        geographicPointTo=new GeographicPointTo(street,city,country,postalCode);
+
     }
 
     public String getFirstName(){
@@ -61,6 +62,8 @@ public class LeadTo {
     public XMLGregorianCalendar getCreationDate() {
         return creationDate;
     }
+
+    public GeographicPointTo getGeographicPointTo() {return geographicPointTo;}
 
     public String getCity() {
         return city;

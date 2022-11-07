@@ -72,7 +72,7 @@ public class RssFeedView extends AbstractRssFeedView {
                 Node node=list.item(i);
                 if(node.getNodeType()==Node.ELEMENT_NODE){
                     Element elementLead=(Element) node;
-                    String firstName,lastName,phone,revenueS,street = "",postalCode="",city="",country,dateCrea,company,state="";
+                    String firstName,lastName,phone,revenueS,street = "",postalCode="",city="",country,dateCrea,company,state="",latitude,longitude;
                     firstName=elementLead.getElementsByTagName("firstName").item(0).getTextContent();
                     lastName=elementLead.getElementsByTagName("lastName").item(0).getTextContent();
 
@@ -96,13 +96,15 @@ public class RssFeedView extends AbstractRssFeedView {
                     if(elementLead.getElementsByTagName("state").getLength()>0){
                         state=elementLead.getElementsByTagName("state").item(0).getTextContent();
                     }
+                    longitude=elementLead.getElementsByTagName("longitude").item(0).getTextContent();
+                    latitude=elementLead.getElementsByTagName("latitude").item(0).getTextContent();
                     String []splitDate=dateCrea.split("T");
                     String []splitDate2=splitDate[0].split("-");
                     XMLGregorianCalendar date= DatatypeFactory.newDefaultInstance().newXMLGregorianCalendarDate(Integer.valueOf(splitDate2[0]),Integer.valueOf(splitDate2[1]),Integer.valueOf(splitDate2[2]), TimeZone.SHORT);;
                     Item item=new Item();
                     item.setTitle(firstName+" "+lastName+" - "+company);
                     Description desc=new Description();
-                    String description="firstname:"+firstName+"-lastname:"+lastName+"-annualRevenue:"+revenue+"-phone:"+phone+"-street:"+street+"-postalCode:"+postalCode+"-city:"+city+"-country:"+country+"-creationDate:"+date.toString()+"-company:"+company+"-state:"+state;
+                    String description="firstname:"+firstName+"-lastname:"+lastName+"-annualRevenue:"+revenue+"-phone:"+phone+"-street:"+street+"-postalCode:"+postalCode+"-city:"+city+"-country:"+country+"-creationDate:"+date.toString()+"-company:"+company+"-state:"+state+"-latitude:"+latitude+"-longitude:"+longitude;
                     desc.setValue(description);
                     item.setDescription(desc);
                     item.setPubDate(toDate(date));

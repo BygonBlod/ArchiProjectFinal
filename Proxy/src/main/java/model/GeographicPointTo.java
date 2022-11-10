@@ -7,10 +7,13 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.IOException;
+
+import static java.lang.System.out;
 
 
 @Data
@@ -51,7 +54,10 @@ public class GeographicPointTo {
                     }
 
                 }
-            } catch (IOException e) {
+            }catch (JSONException e) {
+                out.println("le retour de openStreetMap n'est pas parsable");
+            }
+            catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }

@@ -12,6 +12,8 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import java.util.List;
 
+import static java.lang.System.out;
+
 @Endpoint
 public class LeadToEndPoint {
     private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
@@ -25,6 +27,7 @@ public class LeadToEndPoint {
     @PayloadRoot(namespace = NAMESPACE_URI,localPart = "findLeadsRequest")
     @ResponsePayload
     public FindLeadsResponse findsLeads(@RequestPayload FindLeadsRequest request){
+        out.println("requete sur le revenu "+request.getMinRevenue()+" : "+request.getMaxRevenue()+" : "+request.getState());
         FindLeadsResponse response=new FindLeadsResponse();
         List<LeadTo> leads=leadsRepo.findLeads(request.getMinRevenue(),request.getMaxRevenue(),request.getState());
         for(LeadTo lead:leads) {
@@ -36,6 +39,7 @@ public class LeadToEndPoint {
     @PayloadRoot(namespace = NAMESPACE_URI,localPart = "findLeadsByDateRequest")
     @ResponsePayload
     public FindLeadsResponse findsLeadsByDate(@RequestPayload FindLeadsByDateRequest request){
+        out.println("requete sur la date "+request.getStartDate().toString()+" : "+request.getEndDate().toString());
         FindLeadsResponse response=new FindLeadsResponse();
         List<LeadTo> leads=leadsRepo.findLeadsByDate(request.getStartDate(),request.getEndDate());
         for(LeadTo lead:leads) {

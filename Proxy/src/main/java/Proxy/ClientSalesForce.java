@@ -38,6 +38,7 @@ import Utils.Utils;
 
 import static java.lang.System.out;
 
+
 public class ClientSalesForce implements Proxy {
     private String key;
 
@@ -100,7 +101,10 @@ public class ClientSalesForce implements Proxy {
         int maxi=max.intValue();
         min--;
         int mini=min.intValue();
-        uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead+Where+AnnualRevenue+%3E+"+mini+"+And+AnnualRevenue+%3C+"+maxi+"+And+State+=+'"+state+"'";
+        uri+="q=Select+Id+,+FirstName+,+LastName+,+AnnualRevenue+,+Phone+,+Street+,+PostalCode+,+City+,+Country+,+Company+,+CreatedDate+,+State+From+Lead+Where+AnnualRevenue+%3E=+"+mini+"+And+AnnualRevenue+%3C=+"+maxi;
+        if(!state.equals("")){
+            uri+="+And+State+=+'"+state+"'";
+        }
         res=requete(uri);
         return res;
     }
@@ -138,7 +142,6 @@ public class ClientSalesForce implements Proxy {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        out.println(res.size());
         return res;
     }
     private static ArrayList<LeadTo> getListLead(String response) {

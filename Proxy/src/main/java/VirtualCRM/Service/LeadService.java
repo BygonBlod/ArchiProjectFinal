@@ -1,11 +1,10 @@
-package VirtualCRM.service;
+package VirtualCRM.Service;
 
 import VirtualCRM.Repository.LeadRepository;
 import model.LeadTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Date;
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package VirtualCRM.controller;
+package VirtualCRM.Controller;
 
-import VirtualCRM.service.LeadService;
+import VirtualCRM.Service.LeadService;
 import model.LeadTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -8,13 +8,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-
-import static java.lang.System.out;
 
 @RestController
 public class LeadController {

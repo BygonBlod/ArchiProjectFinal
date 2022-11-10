@@ -79,7 +79,7 @@ task customFatJar(type: Jar) {
 	manifest {
 		attributes 'Main-Class': 'InternCRM.ProducingWebServiceApplication'
 	}
-	baseName = 'all-in-one-jar'
+	baseName = 'Intern'
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 	with jar

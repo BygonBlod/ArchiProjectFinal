@@ -12,7 +12,6 @@ import org.json.JSONTokener;
 
 import java.io.IOException;
 
-import static java.lang.System.out;
 
 @Data
 public class GeographicPointTo {
@@ -43,7 +42,6 @@ public class GeographicPointTo {
                 if (entity != null) {
                     String result = EntityUtils.toString(entity);
                     result=result.substring(1,result.length()-1);
-                    out.println("test:"+result);
                     if(!result.equals("")){
                         JSONObject jsonObject = null;
 

@@ -23,13 +23,12 @@ import java.util.Date;
 import java.util.TimeZone;
 import Utils.Utils;
 
-import static java.lang.System.out;
 
 public class ClientIntern implements Proxy {
 
     private String callSoapService(String soapRequest) {
         try {
-            String url = "http://localhost:8080/ws";
+            String url = "http://localhost:8999/ws";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -52,7 +51,6 @@ public class ClientIntern implements Proxy {
             con.disconnect();
 
             String finalvalue= response.toString();
-            //out.println(finalvalue);
 
             return finalvalue;
         }

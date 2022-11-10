@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import static java.lang.System.out;
 
 
 @Component
@@ -81,10 +80,19 @@ public class LeadsToRepository {
         Assert.notNull(max,"max doit être un nombre");
         Assert.notNull(state,"state doit être un Etat");
         ArrayList<LeadTo> res=new ArrayList<>();
-        for(LeadTo lead:leads){
-            double rev=lead.getAnnualRevenue();
-            if(rev>=min && rev<=max && state.equals(lead.getState())){
-                res.add(lead);
+        if(!state.equals("")) {
+            for (LeadTo lead : leads) {
+                double rev = lead.getAnnualRevenue();
+                if (rev >= min && rev <= max && state.equals(lead.getState())) {
+                    res.add(lead);
+                }
+            }
+        }else{
+            for (LeadTo lead : leads) {
+                double rev = lead.getAnnualRevenue();
+                if (rev >= min && rev <= max) {
+                    res.add(lead);
+                }
             }
         }
         return res;
@@ -103,14 +111,11 @@ public class LeadsToRepository {
         if( startDate.compareTo(endDate)<=0);{
             for(LeadTo lead:leads){
                  Date date= toDate(lead.getCreationDate());
-                 out.println(startDate.toString()+" "+date.toString()+" "+endDate2.toString());
-                 out.println(startDate.compareTo(date)+" - "+date.compareTo(endDate2));
                  if(startDate.compareTo(date)<=0 && date.compareTo(endDate2)<=0){
                     res.add(lead);
                 }
             }
         }
-        out.println("---------");
         return res;
     }
 

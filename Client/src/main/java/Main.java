@@ -1,28 +1,22 @@
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Scanner;
 
 import static java.lang.System.out;
@@ -42,16 +36,15 @@ public class Main {
                     choice=Integer.valueOf(str);
                     goodChoice=true;
                 }catch (Exception e){
-
+                    out.println("le choix n'est pas un nombre ");
                 }
             }
             menuSelect(choice);
         }
-
     }
 
     public static void showMenu(){
-        out.println("Menu: ");
+        out.println("Menu: (Une fois votre choix écrit appuyer sur entrée)");
         out.println("0: requête sur le salaire annuel et l'Etat");
         out.println("1: requête sur les dates");
         out.println("2: quitter ");
@@ -82,7 +75,7 @@ public class Main {
         while(!test){
             String str = sc.nextLine();
             try {
-                min=Integer.valueOf(str);
+                min=Double.valueOf(str);
                 test=true;
             }catch (Exception e){
                 out.println("le min doit être un nombre");
@@ -93,7 +86,7 @@ public class Main {
         while(!test){
             String str = sc.nextLine();
             try {
-                max=Integer.valueOf(str);
+                max=Double.valueOf(str);
                 test=true;
             }catch (Exception e){
                 out.println("le max doit être un nombre");
@@ -144,17 +137,19 @@ public class Main {
     public static void requestWithURI(String uri){
 
         HttpGet request = new HttpGet(uri);
-
+        out.println("envoie de la requête attendez quelques instants");
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(request)) {
 
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
-                out.println(result);
                 prettyPrint(result);
             }
-        } catch (IOException e) {
+        }catch(HttpHostConnectException http){
+            out.println("la connexion avec l'API VirtualCRM n'a pas pu être faite ");
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -171,9 +166,9 @@ public class Main {
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.transform(xmlInput, xmlOutput);
+            out.println("affichege du résultat");
             out.println(xmlOutput.getWriter().toString());
         } catch (Exception e) {
-            //throw new RuntimeException(e); // simple exception handling, please review it
             out.println("la réponse du serveur n'est pas un xml lisible");
         }
     }

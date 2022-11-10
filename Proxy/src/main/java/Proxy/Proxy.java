@@ -9,7 +9,7 @@ import java.util.Date;
 
 public interface Proxy {
 
-    ArrayList<LeadTo> findLeads(Double min, Double max, String state);
+    public ArrayList<LeadTo> findLeads(Double min, Double max, String state);
 
     public ArrayList<model.LeadTo> findLeadsByDate(Date start, Date end);
 }

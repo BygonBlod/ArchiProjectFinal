@@ -31,7 +31,6 @@ import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static java.lang.System.out;
 
 @Component
 public class RssFeedView extends AbstractRssFeedView {
@@ -138,7 +137,6 @@ public class RssFeedView extends AbstractRssFeedView {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
-                out.println(result);
                 res=result;
 
             }

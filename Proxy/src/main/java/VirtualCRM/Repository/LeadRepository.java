@@ -3,13 +3,10 @@ package VirtualCRM.Repository;
 import Proxy.VirtualCRM;
 import model.LeadTo;
 import org.springframework.stereotype.Repository;
-
-import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static java.lang.System.out;
 
 @Repository
 public class LeadRepository {
